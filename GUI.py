@@ -3,7 +3,7 @@ import tkinter.font as tkFont
 from input_validation import InputValidator
 from doppler_shift_simulator import DopplerSimulator
 
-# ---------------- COLORS ----------------
+# Colors
 taupe_grey = "#7a6563"
 light_bronze = "#d3a588"
 toasted_almond = "#c88e6a"
@@ -15,9 +15,9 @@ silver = "#d1c8c7"
 conversions = ["Hz", "MHz", "GHz"]
 speed_units = ["m/s", "km/h"]
 
-# ---------------- WINDOW SETUP ----------------
+# Window Setup
 window = Tk()
-window.geometry("720x480")
+window.geometry("720x620")
 window.resizable(False, False)
 window.title("Doppler Shifter Simulator")
 window.config(background=taupe_grey)
@@ -25,7 +25,7 @@ window.config(background=taupe_grey)
 icon = PhotoImage(file="./smartphone.png")
 window.iconphoto(True, icon)
 
-# ---------------- FONTS ----------------
+# Fonts
 try:
     error_custom_font = tkFont.Font(family="Source Sans Pro", size=12)
     label_custom_font = tkFont.Font(family="Source Sans Pro", size=16, weight="bold")
@@ -36,7 +36,7 @@ except:
     label_custom_font = tkFont.Font(family="Helvetica", size=16, weight="bold")
     button_custom_font = tkFont.Font(family="Helvetica", size=24, weight="bold")
 
-# ---------------- LABELS ----------------
+# Labels
 fc_label = Label(window, text="Carrier Frequency", font=label_custom_font, fg=sand_duno, bg=taupe_grey)
 fc_label.place(x=27, y=51)
 
@@ -46,7 +46,7 @@ speed_label.place(x=362.5, y=51)
 angle_label = Label(window, text="Angle (deg)", font=label_custom_font, fg=sand_duno, bg=taupe_grey)
 angle_label.place(x=547, y=51)
 
-# ---------------- INPUT FIELDS ----------------
+# Input Fields
 fc_input = Entry(window, font=button_custom_font, width=8,
                  bg=light_bronze, fg=parchment, border=0)
 fc_input.place(x=45, y=85)
@@ -59,7 +59,7 @@ angle_input = Entry(window, font=button_custom_font, width=6,
                     bg=light_bronze, fg=parchment, border=0)
 angle_input.place(x=550, y=85)
 
-# ---------------- ERROR LABELS ----------------
+# Error Labels
 fc_error = Label(window, text="", font=error_custom_font, fg="red", bg=taupe_grey)
 fc_error.place(x=25, y=130)
 
@@ -69,7 +69,7 @@ speed_error.place(x=335, y=130)
 angle_error = Label(window, text="", font=error_custom_font, fg="red", bg=taupe_grey)
 angle_error.place(x=545, y=130)
 
-# ---------------- FREQUENCY UNIT SELECTION ----------------
+# Frequency Unit Conversion
 X = IntVar()
 conversion_frame = Frame(window, bg=silver, padx=20, pady=15)
 conversion_frame.place(x=27, y=160)
@@ -86,10 +86,10 @@ for index in range(len(conversions)):
         fg=taupe_grey
     ).pack(side=LEFT, padx=3)
 
-# ---------------- SPEED UNIT SELECTION ----------------
+# Speed Unit Conversion
 speed_unit = IntVar()
 speed_unit_frame = Frame(window, bg=silver, padx=20, pady=15)
-speed_unit_frame.place(x=320, y=160)
+speed_unit_frame.place(x=310, y=160)
 
 for index in range(len(speed_units)):
     Radiobutton(
@@ -103,9 +103,9 @@ for index in range(len(speed_units)):
         fg=taupe_grey
     ).pack(side=LEFT, padx=3)
 
-# ---------------- RESULTS FRAME ----------------
+# Results Frame
 result_frame = Frame(window, bg=silver, width=342, height=230, padx=20, pady=15)
-result_frame.place(x=27, y=230)
+result_frame.place(x=27, y=260)
 
 lambda_label = Label(result_frame, text="λ = 0m", font=label_custom_font, fg=taupe_grey, bg=silver, anchor='w', pady=5)
 lambda_label.pack(fill='both')
@@ -122,7 +122,7 @@ tc_label.pack(fill='both')
 classification_label = Label(result_frame, text="classification = ", font=label_custom_font, fg=taupe_grey, bg=silver, anchor='w', pady=5)
 classification_label.pack(fill='both')
 
-# ---------------- CALCULATION FUNCTION ----------------
+# Calculation Function
 def calculate():
     fc_val = fc_input.get()
     speed_val = speed_input.get()
@@ -139,7 +139,6 @@ def calculate():
 
     if fc_is_valid and speed_is_valid and angle_is_valid:
 
-        # km/h → m/s
         if speed_unit.get() == 1:
             speed = speed / 3.6
 
@@ -152,7 +151,7 @@ def calculate():
         tc_label.config(text=f"Coherence Time (Tc) = {tc:.4f}s")
         classification_label.config(text=f"classification = {classification}")
 
-# ---------------- PLOT FUNCTION ----------------
+# Plot Function
 def plot():
     fc_val = fc_input.get()
     speed_val = speed_input.get()
@@ -175,21 +174,21 @@ def plot():
         DopplerSimulator.plot_fd_angle(fc, speed)
         DopplerSimulator.plot_fd_speed(fc, angle)
 
-# ---------------- BUTTONS ----------------
+# Buttons
 calculate_button = Button(
     window, text="Calculate",
     fg=parchment, activeforeground=parchment,
     bg=light_bronze, activebackground=toasted_almond,
     font=button_custom_font, bd=0, command=calculate
 )
-calculate_button.place(x=500, y=235)
+calculate_button.place(x=27, y=500)
 
 plot_button = Button(
     window, text="Plot",
     fg=parchment, activeforeground=parchment,
     bg=light_bronze, activebackground=toasted_almond,
-    font=button_custom_font, bd=0, padx=38, command=plot
+    font=button_custom_font, bd=0, padx=45, command=plot
 )
-plot_button.place(x=500, y=391)
+plot_button.place(x=250, y=500)
 
 window.mainloop()
