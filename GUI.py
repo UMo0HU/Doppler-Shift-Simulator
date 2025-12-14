@@ -141,11 +141,16 @@ def calculate():
 
         lam, fd, received_freq, tc, classification = DopplerSimulator.compute_doppler(fc, speed, angle)
 
+        if(tc == float('inf')):
+            tc = "∞ (No time variation)"
+        else:
+            tc = f"{tc:.4f}s"
+
         lambda_label.config(text=f"λ = {lam:.3f}m")
         sign = "+" if fd >= 0 else "-"
         fd_label.config(text=f"Doppler shift (fD) = {sign}{abs(fd):.2f}Hz")
         recieved_freq_label.config(text=f"Received Frequency = {received_freq:.2f}Hz")
-        tc_label.config(text=f"Coherence Time (Tc) = {tc:.4f}s")
+        tc_label.config(text=f"Coherence Time (Tc) = {tc}")
         classification_label.config(text=f"Classification = {classification}")
 
 # Plot Function
