@@ -1,45 +1,54 @@
 class InputValidator:
     @staticmethod
-    def validate_fc(fc, conversion):
+    def _to_float(value, field_name):
+        if value is None or str(value).strip() == "":
+            return False, f"{field_name} is required.", None
         try:
-            fc_val = float(fc)
-            if conversion == 0:
-                fc = fc_val
-            elif conversion == 1:
-                fc = fc_val * 1e6
-            elif conversion == 2:
-                fc = fc_val * 1e9
-            else:
-                return False, "Invalid unit conversion.", None
-
-            if fc > 0:
-                return True, "", fc
-            return False, "Carrier Frequency should be > 0.", None
+            return True, "", float(value)
         except ValueError:
-            if fc == "":
-                return False, "Carrier Frequency Required.", None
-            return False, "Carrier Frequency should be a number.", None
+            return False, f"{field_name} must be a number.", None
 
     @staticmethod
-    def validate_speed(v):
-        try:
-            v = float(v)
-            if v >= 0:
-                return True, "", v
-            return False, "Speed should be > 0.", None
-        except ValueError:
-            if v == "":
-                return False, "Speed Required.", None
-            return False, "Speed should be a number.", None
+    def validate_fc(fc, conversion):
+        ok, msg, fc_val = InputValidator._to_float(fc, "Carrier Frequency")
+        if not ok:
+            return False, msg, None
+
+        # Unit conversion
+        conversions = {
+            0: 1,        # Hz
+            1: 1e6,      # MHz
+            2: 1e9       # GHz
+        }
+
+        if conversion not in conversions:
+            return False, "Invalid frequency unit.", None
+
+        fc_val *= conversions[conversion]
+
+        if fc_val <= 0:
+            return False, "Carrier Frequency must be greater than 0.", None
+
+        return True, "", fc_val
+
+    @staticmethod
+    def validate_speed(speed):
+        ok, msg, v = InputValidator._to_float(speed, "Speed")
+        if not ok:
+            return False, msg, None
+
+        if v < 0:
+            return False, "Speed cannot be negative.", None
+
+        return True, "", v
 
     @staticmethod
     def validate_angle(angle):
-        try:
-            angle = float(angle)
-            if angle < 0 or angle > 360:
-                return False, "Angle should be between 0 and 360.", None
-            return True, "", angle
-        except ValueError:
-            if angle == "":
-                return False, "Angle Required.", None
-            return False, "Angle should be a number.", None
+        ok, msg, ang = InputValidator._to_float(angle, "Angle")
+        if not ok:
+            return False, msg, None
+
+        if not (0 <= ang <= 360):
+            return False, "Angle must be between 0 and 360 degrees.", None
+
+        return True, "", ang
