@@ -32,10 +32,13 @@ class InputValidator:
         return True, "", fc_val
 
     @staticmethod
-    def validate_speed(speed):
+    def validate_speed(speed, speed_unit):
         ok, msg, v = InputValidator._to_float(speed, "Speed")
         if not ok:
             return False, msg, None
+
+        if speed_unit == 1:
+            v = v / 3.6
 
         if v < 0:
             return False, "Speed cannot be negative.", None

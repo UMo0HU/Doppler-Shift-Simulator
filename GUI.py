@@ -129,7 +129,7 @@ def calculate():
     angle_val = angle_input.get()
 
     fc_is_valid, fc_error_msg, fc = InputValidator.validate_fc(fc_val, X.get())
-    speed_is_valid, speed_error_msg, speed = InputValidator.validate_speed(speed_val)
+    speed_is_valid, speed_error_msg, speed = InputValidator.validate_speed(speed_val, speed_unit.get())
     angle_is_valid, angle_error_msg, angle = InputValidator.validate_angle(angle_val)
 
     # Show errors
@@ -138,9 +138,6 @@ def calculate():
     angle_error.config(text=angle_error_msg)
 
     if fc_is_valid and speed_is_valid and angle_is_valid:
-
-        if speed_unit.get() == 1:
-            speed = speed / 3.6
 
         lam, fd, received_freq, tc, classification = DopplerSimulator.compute_doppler(fc, speed, angle)
 
@@ -158,7 +155,7 @@ def plot():
     angle_val = angle_input.get()
 
     fc_is_valid, fc_error_msg, fc = InputValidator.validate_fc(fc_val, X.get())
-    speed_is_valid, speed_error_msg, speed = InputValidator.validate_speed(speed_val)
+    speed_is_valid, speed_error_msg, speed = InputValidator.validate_speed(speed_val, speed_unit.get())
     angle_is_valid, angle_error_msg, angle = InputValidator.validate_angle(angle_val)
 
     # Show errors
@@ -167,9 +164,6 @@ def plot():
     angle_error.config(text=angle_error_msg)
 
     if fc_is_valid and speed_is_valid and angle_is_valid:
-
-        if speed_unit.get() == 1:
-            speed = speed / 3.6
 
         DopplerSimulator.plot_fd_angle(fc, speed)
         DopplerSimulator.plot_fd_speed(fc, angle)
