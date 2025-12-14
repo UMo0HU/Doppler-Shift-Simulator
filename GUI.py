@@ -119,7 +119,7 @@ recieved_freq_label.pack(fill='both')
 tc_label = Label(result_frame, text="Coherence Time (Tc) = 0s", font=label_custom_font, fg=taupe_grey, bg=silver, anchor='w', pady=5)
 tc_label.pack(fill='both')
 
-classification_label = Label(result_frame, text="classification = ", font=label_custom_font, fg=taupe_grey, bg=silver, anchor='w', pady=5)
+classification_label = Label(result_frame, text="Classification = ", font=label_custom_font, fg=taupe_grey, bg=silver, anchor='w', pady=5)
 classification_label.pack(fill='both')
 
 # Calculation Function
@@ -146,7 +146,7 @@ def calculate():
         fd_label.config(text=f"Doppler shift (fD) = {sign}{abs(fd):.2f}Hz")
         recieved_freq_label.config(text=f"Received Frequency = {received_freq:.2f}Hz")
         tc_label.config(text=f"Coherence Time (Tc) = {tc:.4f}s")
-        classification_label.config(text=f"classification = {classification}")
+        classification_label.config(text=f"Classification = {classification}")
 
 # Plot Function
 def plot():

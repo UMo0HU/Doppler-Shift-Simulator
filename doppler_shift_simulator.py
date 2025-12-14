@@ -1,18 +1,23 @@
 import math
 import matplotlib.pyplot as plt
-import matplotlib.animation as animation
 import numpy as np
 
 class DopplerSimulator:
     SPEED_OF_LIGHT = 3e8
+    EPSILON = 1e-6
 
     @staticmethod
     def compute_doppler(fc, v, angle):
         lam = DopplerSimulator.SPEED_OF_LIGHT / fc
         fd = (v / lam) * math.cos(math.radians(angle))
         received_frequency = fc + fd
-        Tc = 1 / abs(fd) if fd != 0 else float('inf')
-        fading_type = 'Fast Fading' if Tc < 0.01 else "Slow Fading"
+        if abs(fd) < DopplerSimulator.EPSILON:
+            fd = 0
+            Tc = float('inf')
+            fading_type = "No Fading"
+        else:
+            Tc = 1 / abs(fd)
+            fading_type = "Fast Fading" if Tc < 0.01 else "Slow Fading"
         return lam, fd, received_frequency, Tc, fading_type
 
     @staticmethod

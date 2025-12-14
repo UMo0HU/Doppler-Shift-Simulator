@@ -38,7 +38,7 @@ class InputValidator:
             return False, msg, None
 
         if speed_unit == 1:
-            v = v / 3.6
+            v = v / 3.6 # (Km/h) => (m/s)
 
         if v < 0:
             return False, "Speed cannot be negative.", None
