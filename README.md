@@ -2,6 +2,7 @@
 # **Doppler Shift Simulator**
 
 This project is a Python-based Doppler Shift simulator with a graphical user interface (GUI).
+
 It allows users to calculate Doppler shift parameters and visualize their behavior using plots.
 
 ## **Requirements**
